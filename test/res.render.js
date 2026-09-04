@@ -295,6 +295,38 @@ describe('res', function(){
       .get('/')
       .expect('<p>jane</p>', done);
     })
+
+    describe('when "root" is given', function(){
+      it('should look the view up in that directory', function(done){
+        var app = createApp();
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.locals.user = { name: 'tobi' };
+
+        app.use(function(req, res){
+          res.render('user.tmpl', { root: path.join(__dirname, 'fixtures', 'local_layout') });
+        });
+
+        request(app)
+        .get('/')
+        .expect('<span>tobi</span>', done);
+      })
+
+      it('should be per-request', function(done){
+        var app = createApp();
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.locals.user = { name: 'tobi' };
+
+        app.use(function(req, res){
+          res.render('user.tmpl');
+        });
+
+        request(app)
+        .get('/')
+        .expect('<p>tobi</p>', done);
+      })
+    })
   })
 
   describe('.render(name, options, fn)', function(){
