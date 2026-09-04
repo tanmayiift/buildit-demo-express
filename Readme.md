@@ -280,3 +280,26 @@ The original author of Express is [TJ Holowaychuk](https://github.com/tj)
 [ossf-scorecard-visualizer]: https://ossf.github.io/scorecard-visualizer/#/projects/github.com/expressjs/express
 [Code of Conduct]: https://github.com/expressjs/.github/blob/HEAD/CODE_OF_CONDUCT.md
 [Contributing Guide]: https://github.com/expressjs/.github/blob/HEAD/CONTRIBUTING.md
+
+---
+
+_This repository is a snapshot of [expressjs/express](https://github.com/expressjs/express) at
+`023767fe9872e029271df1418f73401bff20ff40` (MIT), used to demonstrate an automated code review on
+real open-source code. It is not the upstream project and should not be depended on._
+
+_Two changes were made to the snapshot. A `package-lock.json` was generated and committed, and the
+entry ignoring it was removed from `.gitignore`, so an automated reviewer can install
+deterministically (upstream sets `package-lock=false` in `.npmrc` and does not commit one, but
+`npm ci` requires it; `npm ci` still works with that setting in place, so it was left alone). And
+`.github/dependabot.yml` was deleted, because a snapshot that is meant to carry exactly one open
+pull request should not keep opening its own. No source file was modified, and `test` and `lint`
+are upstream's own scripts, unchanged._
+
+_`typecheck` was deliberately **not** added, and an automated reviewer will correctly report it as
+not configured: this snapshot is plain JavaScript with no TypeScript sources and no `tsconfig.json`,
+so there is nothing for it to check._
+
+_`npm test` runs 1,260 tests in roughly two seconds. One of them fails intermittently on Node 26 —
+a different one each run, always with `Parse Error: Expected HTTP/, RTSP/ or ICE/` from a raw
+socket in `supertest` — which is the state this snapshot was cloned in and is unrelated to any
+change under review._
