@@ -1,0 +1,7 @@
+reviewProfile: balanced
+pathFilters:
+  - '!examples/**'
+  - '!test/fixtures/**'
+pathInstructions:
+  - path: 'lib/**'
+    instructions: 'This is the application, request and response core. Pay close attention to state held across requests — especially anything cached on the app, and what identifies an entry in it — and to how per-call options are merged with app-level settings.'
