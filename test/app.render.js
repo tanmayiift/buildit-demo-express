@@ -349,6 +349,75 @@ describe('app', function(){
       })
     })
 
+    describe('"root" option', function(){
+      it('should look the view up in the given directory', function(done){
+        var app = createApp()
+
+        app.locals.user = { name: 'tobi' }
+
+        app.render('user.tmpl', { root: path.join(__dirname, 'fixtures', 'local_layout') }, function (err, str) {
+          if (err) return done(err);
+          assert.strictEqual(str, '<span>tobi</span>')
+          done()
+        })
+      })
+
+      it('should take precedence over the "views" setting', function(done){
+        var app = createApp()
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.locals.user = { name: 'tobi' }
+
+        app.render('user.tmpl', { root: path.join(__dirname, 'fixtures', 'local_layout') }, function (err, str) {
+          if (err) return done(err);
+          assert.strictEqual(str, '<span>tobi</span>')
+          done()
+        })
+      })
+
+      it('should support an array of directories', function(done){
+        var app = createApp()
+
+        app.locals.user = { name: 'tobi' }
+
+        var root = [
+          path.join(__dirname, 'fixtures', 'does_not_exist'),
+          path.join(__dirname, 'fixtures', 'local_layout')
+        ]
+
+        app.render('user.tmpl', { root: root }, function (err, str) {
+          if (err) return done(err);
+          assert.strictEqual(str, '<span>tobi</span>')
+          done()
+        })
+      })
+
+      it('should error when the view is not under the given directory', function(done){
+        var app = createApp()
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+
+        app.render('user.tmpl', { root: path.join(__dirname, 'fixtures', 'pets') }, function (err) {
+          assert.ok(err)
+          assert.ok(/Failed to lookup view "user\.tmpl"/.test(err.message))
+          done()
+        })
+      })
+
+      it('should fall back to the "views" setting when not given', function(done){
+        var app = createApp()
+
+        app.set('views', path.join(__dirname, 'fixtures'))
+        app.locals.user = { name: 'tobi' }
+
+        app.render('user.tmpl', {}, function (err, str) {
+          if (err) return done(err);
+          assert.strictEqual(str, '<p>tobi</p>')
+          done()
+        })
+      })
+    })
+
     describe('caching', function(){
       it('should cache with cache option', function(done){
         var app = express();
